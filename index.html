@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Call Back Hell</h1>
+    <h1 class="heading1">item 1</h1>
+    <h1 class="heading2">item 2</h1>
+    <h1 class="heading3">item 3</h1>
+    <h1 class="heading4">item 4</h1>
+    <h1 class="heading5">item 5</h1>
+    <h1 class="heading6">item 6</h1>
+    <h1 class="heading7">item 7</h1>
+    <h1 class="heading8">item 8</h1>
+    <h1 class="heading9">item 9</h1>
+    <h1 class="heading10">item 10</h1>
+    <script>
+        //    -------------------promise produce--------------------
+
+        function promises() {
+            let items = ["Rice", "Vegetables", "Salt", "Masala"];
+            return new Promise((resolve, reject) => {
+                if (items.includes("Salt") && items.includes("Vegetables") && items.includes("Masala")) {
+                    resolve("Promise fullfilled");
+                } else {
+                    reject(new Error("Something is missing"));
+                }
+            });
+        }
+
+        // ---------------------------------------------promise consume----------------------------
+
+        promises().then(
+            (resolve) => {
+                console.log(resolve);
+            }
+        ).catch((error) => {
+            console.log(error);
+
+        })
+
+        setTimeout(() => {
+            console.log("inside settimeout");
+
+        }, 1000);
+
+        function newpromise() {
+            return new Promise((resolve, reject) => {
+                let value = false;
+                setTimeout(() => {
+                    if (value) {
+                        resolve("resolved");
+                    } else {
+                        reject("rejected")
+                    }
+                }, 1000);
+            })
+        }
+        newpromise().then((value) => {
+            value += " ho gya";
+            return value
+        }).then((val) => {
+            console.log(val);
+
+        }).catch(() => {
+            console.log("rejected");
+
+        });
+
+
+
+        // -----------------------------different method with then chaining----------------------
+
+        const heading1 = document.querySelector(".heading1");
+        const heading2 = document.querySelector(".headin2");
+        const heading3 = document.querySelector(".heading3");
+        const heading4 = document.querySelector(".heading4");
+        const heading5 = document.querySelector(".heading5");
+        const heading6 = document.querySelector(".heading6");
+        const heading7 = document.querySelector(".heading7");
+        const heading8 = document.querySelector(".heading8");
+        const heading9 = document.querySelector(".heading9");
+        const heading10 = document.querySelector(".heading10");
+
+        function newpromise(element, text, col, time) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (element) {
+                        element.textContent = text;
+                        element.style.color = col;
+                        resolve("resolved");
+                    } else {
+                        reject("rejected");
+                    }
+                }, time)
+            })
+        }
+        let data = newpromise(heading1, "one", "red");
+        // ----------------------->then chaining<---------------------
+
+        data.then(() => newpromise(heading2, "two", "green", 1000))
+            .then(() => newpromise(heading3, "three", "blue", 2000))
+            .then(() => newpromise(heading4, "four", "pink", 1000))
+            .then(() => newpromise(heading5, "five", "yellow", 2000))
+            .then(() => newpromise(heading6, "six", "black", 1000))
+            .then(() => newpromise(heading7, "seven", "dodgerblue", 1000))
+            .then(() => newpromise(heading8, "eight", "brown", 2000))
+            .then(() => newpromise(heading9, "nine", "tomato", 1000))
+            .then(() => newpromise(heading10, "ten", "green", 1000))
+            .catch(() => console.log("rejected"))
+    </script>
+</body>
+
+</html>
